@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Malicious Site</h1>
+  <button id="cors-req">Get ajax without cors allowed</button>
+  <button id="cors-req-allow">Cors ajax with Access-Control-Allow-Origin Header</button>
+  <button id="cors-req-post">Cors ajax post without option (See server log)</button>
+  <button id="cors-req-post-option">Cors ajax post with option (See server log)</button>
+  <script>
+    document.querySelector("#cors-req").addEventListener("click", function(e) {
+      fetch("http://localhost:8000")
+        .then(res => res.text())
+        .then(res => {
+          console.log(res)
+        })
+    })
+    document.querySelector("#cors-req-allow").addEventListener("click", function(e) {
+      fetch("http://localhost:8000/allow")
+        .then(res => res.text())
+        .then(res => {
+          console.log(res)
+        })
+    })
+    document.querySelector("#cors-req-post").addEventListener("click", function(e) {
+      fetch("http://localhost:8000/article", {
+        method: "POST"
+      })
+        .then(res => res.text())
+        .then(res => {
+          console.log(res)
+        })
+    })
+    document.querySelector("#cors-req-post-option").addEventListener("click", function(e) {
+      fetch("http://localhost:8000/article", {
+        method: "POST",
+        body: JSON.stringify({
+          title: "Malicious ˋˊ!"
+        }),
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+        .then(res => res.text())
+        .then(res => {
+          console.log(res)
+        })
+    })
+  </script>
+</body>
+</html>
